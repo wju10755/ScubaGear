@@ -12,7 +12,7 @@ Write-Host -ForegroundColor "Blue" $Padding -NoNewline;
 Print-Middle "CISA - Security Baseline Conformance Reports"
 Write-Host -ForegroundColor "Blue" $Padding;
 Write-Host `n
-
+Start-Transcript c:\temp\scuba.log
 # Define the URL for the latest release of ScubaGear
 $scubaGearUrl = "https://codeload.github.com/cisagov/ScubaGear/zip/refs/heads/main"
 
@@ -87,6 +87,6 @@ $ScubaReport = $mostRecentDir.FullName
 
 # Launch SCuBA Report
 Invoke-Item "$ScubaReport\baselinereports.html"
-
+Stop-Transcript
 Read-Host -Prompt "Press Enter to Exit"
 
