@@ -11,7 +11,7 @@
 # Set prefernces for writing messages
 $DebugPreference = "Continue"
 $InformationPreference = "Continue"
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 
 # Set expected version and OutFile path
 $ExpectedVersion = "0.42.1"
