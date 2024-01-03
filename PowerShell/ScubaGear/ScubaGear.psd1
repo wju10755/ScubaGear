@@ -5,7 +5,7 @@
 #
 # Generated on: 10/18/2022
 #
-
+Start-Transcript c:\temp\scuba.log
 @{
 
 # Script module or binary module file associated with this manifest.
@@ -132,3 +132,4 @@ PrivateData = @{
 # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
 # DefaultCommandPrefix = ''
 }
+Stop-Transcript
