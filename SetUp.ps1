@@ -43,7 +43,7 @@ if (-not $DoNotAutoTrustRepository) {
 
     if ($($Policy.InstallationPolicy) -ne "Trusted") {
         Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-        Write-Information -MessageData "Setting PSGallery repository to trusted."
+        #Write-Information -MessageData "Setting PSGallery repository to trusted."
     }
 }
 
