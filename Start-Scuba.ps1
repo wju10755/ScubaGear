@@ -28,7 +28,7 @@ $scubafile = "$tmp\scuba.zip"
 
 $setup = "c:\temp\scuba\setup.ps1"
 
-$opaFile = "$scubaDir\opa.exe"
+$opaFile = "$scubaDir\opa_windows_amd64.exe"
 
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
