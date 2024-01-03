@@ -59,7 +59,7 @@ function Get-TeamsTenantDetail {
     # Need to explicitly clear or convert these values to strings, otherwise
     # these fields contain values Rego can't parse.
     try {
-        $TenantInfo = Get-CsTenant -ErrorAction "Stop"
+        $TenantInfo = Get-CsTenant -ErrorAction "Continue"
 
         $VerifiedDomains = $TenantInfo.VerifiedDomains
         $TenantDomain = "Teams: Domain Unretrievable"
