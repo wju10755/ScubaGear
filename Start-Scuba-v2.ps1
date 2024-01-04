@@ -66,7 +66,7 @@ if (Test-Path -Path $RequiredModulesPath) {
 }
 
 if (-not(Test-Path $RequiredModulesPath)) {
-    .\setup.ps1
+& "c:\temp\scuba\setup.ps1"
 }
 
 if (-not (Test-Path $setup)) {

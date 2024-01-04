@@ -3,7 +3,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
 Write-Host -ForegroundColor Yellow "Loading CISA SCuBA Baseline Report Tool..."
 $scubaDir = "C:\temp\scuba"
 if (!(Test-Path $scubaDir)){
-    New-Item -ItemType Directory -Path "c:\temp\scuba" | Out-Null
+    New-Item -ItemType Directory -Path $scubaDir | Out-Null
 } else {
     Write-Host "Scuba directory already exists."
 }
