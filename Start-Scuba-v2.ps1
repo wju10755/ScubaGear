@@ -32,15 +32,15 @@ if (-not (Get-PackageProvider -ListAvailable | Where-Object { $_.Name -eq 'NuGet
     # NuGet provider is not installed, proceed with installation
     try {
         # Install NuGet provider silently
-        Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
-        Write-Host "NuGet package provider installed successfully."
+        Install-PackageProvider -Name NuGet -Force -Scope CurrentUser | Out-Null
+        
     } catch {
         # Error handling
         Write-Host "Error occurred while installing NuGet package provider: $_"
     }
 } else {
     # NuGet provider is already installed
-    Write-Host "NuGet package provider is already installed."
+    #Write-Host "NuGet package provider is already installed."
 }
 
 
@@ -56,28 +56,26 @@ if (-not (Test-Path $scubaDir)) {
 # Set Working Directory
 Set-Location $scubaDir
 
+
+
+
 # Download the latest release of ScubaGear and extract it to the installation directory
 if (-not (Test-Path $scubafile)) {
-    Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
-    Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
-
-    # Expected hash and size for validation
-    $expectedHash = "C21657AFE6D1E52ACCAA4A509CAD70B8EC21B6F3B116CCFE4992CF525C69AB8A"
-
-    # Calculate actual hash and size of the downloaded file
-    $actualHash = (Get-FileHash $scubafile -Algorithm SHA256).Hash.ToUpper()
-
-    # Validate the downloaded file
-    if ($expectedHash -eq $actualHash) {
-        Write-Host " done." -ForegroundColor Green
-    } else {
-        Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
-        # Optionally, you can add a command to remove the incorrectly downloaded file
-         #Remove-Item $scubafile -ErrorAction SilentlyContinue
-    }
-} else {
-    Write-Host "Scuba.zip file already exists." -ForegroundColor Yellow
+$expectedHash = "1B36A8AA900C12F7519225E062C903642E9A55C762F05B31B8BDAA3063FB9838"
+# Download the file
+Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
 }
+
+# Calculate the SHA256 hash of the downloaded file
+$actualHash = (Get-FileHash -Path $scubafile -Algorithm SHA256).Hash
+
+# Compare the actual hash with the expected hash
+if ($actualHash -eq $expectedHash) {
+    Write-Host "Hash match confirmed. The file is valid."
+} else {
+    Write-Host "Hash mismatch. The file may be corrupted or tampered with."
+}
+
 
 # Unpack ScubaGear and move to root of c:\temp\scuba\
 if (-not (Test-Path $setup)) {
@@ -88,29 +86,20 @@ if (-not (Test-Path $setup)) {
     Write-Host " done." -ForegroundColor Green
 }
 
-
 # Download OPA and save it to the scuba directory
 if (-not (Test-Path $opaFile)) {
-    Write-Host "Downloading Open Policy Agent..." -NoNewline
-    Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
-
-    # Expected hash and size for validation
     $expectedHash = "8E20B4FCD6B8094BE186D8C9EC5596477FB7CB689B340D285865CB716C3C8EA7"
-
-    # Calculate actual hash and size of the downloaded file
-    $actualHash = (Get-FileHash $opaFile -Algorithm SHA256).Hash.ToUpper()
-
-    # Validate the downloaded file
-    if ($expectedHash -eq $actualHash) {
-        Write-Host " done." -ForegroundColor Green
-    } else {
-        Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
-        # Optionally, you can add a command to remove the incorrectly downloaded file
-         Remove-Item $opaFile -ErrorAction SilentlyContinue
+    # Download the file
+    Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
     }
-} else {
-    Write-Host "OPA file already exists." -ForegroundColor Yellow
-}
+    # Calculate the SHA256 hash of the downloaded file
+    $actualHash = (Get-FileHash -Path $opaFile -Algorithm SHA256).Hash
+    # Compare the actual hash with the expected hash
+    if ($actualHash -eq $expectedHash) {
+        Write-Host "Hash match confirmed. The file is valid."
+    } else {
+        Write-Host "Hash mismatch. The file may be corrupted or tampered with."
+    }
 
 # Run module requirements setup
 & "$scubaDir\setup.ps1"
