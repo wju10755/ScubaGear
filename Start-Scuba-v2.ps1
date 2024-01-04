@@ -40,15 +40,6 @@ Start-Transcript -Path "c:\temp\scuba\scuba.log"
 Set-Location $scubaDir
 
 # Download the latest release of ScubaGear and extract it to the installation directory
-if (!(Test-Path $scubafile)) {
-    Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
-    Invoke-WebRequest -Uri $scubaGearUrl -OutFile "c:\temp\scuscuba.zip"
-    Write-Host " done." -ForegroundColor Green
-} else {
-    Write-Host "Existing scuba.zip download found"
-}
-
-# Download the latest release of ScubaGear and extract it to the installation directory
 if (-not (Test-Path $scubafile)) {
     Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
     Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
@@ -73,6 +64,7 @@ if (-not (Test-Path $scubafile)) {
     Write-Host "Scuba.zip file already exists." -ForegroundColor Yellow
 }
 
+# Unpack ScubaGear and move to root of c:\temp\scuba\
 if (-not (Test-Path $setup)) {
     Write-Host "Unpacking ScubaGear..." -NoNewline
     Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
@@ -82,7 +74,7 @@ if (-not (Test-Path $setup)) {
 }
 
 
-# Download OPA and save it to the installation directory
+# Download OPA and save it to the scuba directory
 if (-not (Test-Path $opaFile)) {
     Write-Host "Downloading Open Policy Agent..." -NoNewline
     Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
