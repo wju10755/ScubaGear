@@ -46,14 +46,12 @@ if (-not (Test-Path $scubafile)) {
 
     # Expected hash and size for validation
     $expectedHash = "C21657AFE6D1E52ACCAA4A509CAD70B8EC21B6F3B116CCFE4992CF525C69AB8A"
-    $expectedSize = 2578498
 
     # Calculate actual hash and size of the downloaded file
     $actualHash = (Get-FileHash $scubafile -Algorithm SHA256).Hash.ToUpper()
-    $actualSize = (Get-Item $scubafile).Length
 
     # Validate the downloaded file
-    if ($expectedHash -eq $actualHash -and $expectedSize -eq $actualSize) {
+    if ($expectedHash -eq $actualHash) {
         Write-Host " done." -ForegroundColor Green
     } else {
         Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
@@ -81,14 +79,12 @@ if (-not (Test-Path $opaFile)) {
 
     # Expected hash and size for validation
     $expectedHash = "8E20B4FCD6B8094BE186D8C9EC5596477FB7CB689B340D285865CB716C3C8EA7"
-    $expectedSize = 91104854
 
     # Calculate actual hash and size of the downloaded file
     $actualHash = (Get-FileHash $opaFile -Algorithm SHA256).Hash.ToUpper()
-    $actualSize = (Get-Item $opaFile).Length
 
     # Validate the downloaded file
-    if ($expectedHash -eq $actualHash -and $expectedSize -eq $actualSize) {
+    if ($expectedHash -eq $actualHash) {
         Write-Host " done." -ForegroundColor Green
     } else {
         Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
