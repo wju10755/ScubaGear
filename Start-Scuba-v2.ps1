@@ -45,7 +45,7 @@ if (-not (Test-Path $scubafile)) {
     Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
 
     # Expected hash and size for validation
-    $expectedHash = "003EB1B6B74AD0E94BC7676F8F8891F523A6BF04AD502B351B2A5E76E0835135"
+    $expectedHash = "C21657AFE6D1E52ACCAA4A509CAD70B8EC21B6F3B116CCFE4992CF525C69AB8A"
     $expectedSize = 2578496
 
     # Calculate actual hash and size of the downloaded file
