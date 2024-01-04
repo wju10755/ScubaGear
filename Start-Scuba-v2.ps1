@@ -46,7 +46,7 @@ if (-not (Test-Path $scubafile)) {
 
     # Expected hash and size for validation
     $expectedHash = "C21657AFE6D1E52ACCAA4A509CAD70B8EC21B6F3B116CCFE4992CF525C69AB8A"
-    $expectedSize = 2578496
+    $expectedSize = 2578498
 
     # Calculate actual hash and size of the downloaded file
     $actualHash = (Get-FileHash $scubafile -Algorithm SHA256).Hash.ToUpper()
