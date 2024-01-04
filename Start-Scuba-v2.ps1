@@ -27,6 +27,12 @@ $scubafile = "$scubaDir\scuba.zip"
 $setup = "$scubaDir\setup.ps1"
 $opaFile = "$scubaDir\opa_windows_amd64.exe"
 
+# Check if NuGet provider is installed
+if (!(Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
+    # NuGet provider not installed, so install it
+    Install-PackageProvider -Name NuGet -Force *> $null
+}
+
 Start-Transcript -Path "c:\temp\scuba\scuba.log"
 
 # Create the ScubaGear installation directory if it doesn't exist
