@@ -38,6 +38,7 @@ param(
 $DebugPreference = "Continue"
 $InformationPreference = "Continue"
 $scubaDir = "c:\temp\scuba"
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
 
 if (-not $DoNotAutoTrustRepository) {
     $Policy = Get-PSRepository -Name "PSGallery" | Select-Object -Property -InstallationPolicy
