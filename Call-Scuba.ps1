@@ -5,7 +5,7 @@ $scubaDir = "C:\temp\scuba"
 if (!(Test-Path $scubaDir)){
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
 } else {
-    Write-Host "Scuba directory already exists."
+    #Write-Host "Scuba directory already exists."
 }
 
 Invoke-WebRequest -uri "https://raw.githubusercontent.com/wju10755/ScubaGear/main/Start-Scuba-v2.ps1" -OutFile "C:\temp\scuba\Start-Scuba.ps1"
