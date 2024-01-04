@@ -60,7 +60,7 @@ Set-Location $scubaDir
 # Download the latest release of ScubaGear and extract it to the installation directory
 if (-not (Test-Path $scubafile)) {
 # Download the file
-Write-Host "Downloading latest release of CISA Scuba..." -NoNewline
+Write-Host "Downloading latest release of CISA Scuba (2,578,666 bytes)..." -NoNewline
 Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
 Write-Host " done." -ForegroundColor Green
 }
@@ -77,7 +77,7 @@ if (-not (Test-Path $setup)) {
 # Download OPA and save it to the scuba directory
 if (-not (Test-Path $opaFile)) {
     # Download the file
-    Write-Host "Downloading Open Policy Agent (91,104,854 bytes)" -NoNewline
+    Write-Host "Downloading Open Policy Agent (91,104,854 bytes)..." -NoNewline
     Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
     Write-Host " done." -ForegroundColor Green
     }
