@@ -1,3 +1,4 @@
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', 'ModuleList')]
 $ModuleList = @(
     @{
