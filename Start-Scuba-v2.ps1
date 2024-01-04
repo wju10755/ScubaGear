@@ -17,8 +17,8 @@ Write-Host "`n"
 Start-Transcript -Path "c:\temp\scuba.log"
 
 # Define the URL for the latest release of ScubaGear
-$scubaGearUrl = "https://codeload.github.com/cisagov/ScubaGear/zip/refs/heads/main"
-
+#$scubaGearUrl = "https://codeload.github.com/cisagov/ScubaGear/zip/refs/heads/main"
+$scubaGearUrl = "https://codeload.github.com/wju10755/ScubaGear/zip/refs/heads/main"
 # Define the URL for the OPA download
 $opaUrl = "https://openpolicyagent.org/downloads/v0.60.0/opa_windows_amd64.exe"
 
