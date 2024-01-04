@@ -69,16 +69,16 @@ if (Test-Path -Path $RequiredModulesPath) {
   . $RequiredModulesPath
 }
 
+if (-not(Test-Path $RequiredModulesPath)) {
+    .\setup.ps1
+}
+
 if (-not (Test-Path $setup)) {
     Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
     Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
     Remove-Item "$scubaDir\ScubaGear-main"
- 
 }
 
-if (-not(Test-Path $RequiredModulesPath)) {
-    .\setup.ps1
-}
 
 # Import the ScubaGear module
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
