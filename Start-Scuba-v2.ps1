@@ -27,11 +27,22 @@ $scubafile = "$scubaDir\scuba.zip"
 $setup = "$scubaDir\setup.ps1"
 $opaFile = "$scubaDir\opa_windows_amd64.exe"
 
-# Check if NuGet provider is installed
-if (!(Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
-    # NuGet provider not installed, so install it
-    Install-PackageProvider -Name NuGet -Force *> $null
+# Check if NuGet provider is available
+if (-not (Get-PackageProvider -ListAvailable | Where-Object { $_.Name -eq 'NuGet' })) {
+    # NuGet provider is not installed, proceed with installation
+    try {
+        # Install NuGet provider silently
+        Install-PackageProvider -Name NuGet -Force -Scope CurrentUser
+        Write-Host "NuGet package provider installed successfully."
+    } catch {
+        # Error handling
+        Write-Host "Error occurred while installing NuGet package provider: $_"
+    }
+} else {
+    # NuGet provider is already installed
+    Write-Host "NuGet package provider is already installed."
 }
+
 
 Start-Transcript -Path "c:\temp\scuba\scuba.log"
 
