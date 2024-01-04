@@ -47,8 +47,8 @@ if (!(Test-Path $scubafile)) {
 
 # Download OPA and save it to the installation directory
 if (-not(Test-Path $opaFile)) {
-    Write-Host "Downloading Open Policy Agent Executable..." -NoNewline
-    #Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa.exe"    
+    Write-Host "Downloading Open Policy Agent..." -NoNewline
+    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
     Write-Host " done." -ForegroundColor Green
 }
 
