@@ -10,4 +10,4 @@ Invoke-WebRequest -uri "https://raw.githubusercontent.com/wju10755/ScubaGear/mai
 $Scuba = "c:\temp\scuba\Start-Scuba.ps1"
 $Process = Start-Process -FilePath powershell $Scuba -Wait
 Start-Sleep -Seconds 3
-Remove-item -path "C:\temp\scuba\Start-Scuba.ps1"
+Remove-item -path $Scuba
