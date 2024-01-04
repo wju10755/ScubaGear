@@ -50,32 +50,20 @@ Start-Transcript -Path "c:\temp\scuba\scuba.log"
 if (-not (Test-Path $scubaDir)) {
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
 } else {
-    Write-Host "Scuba directory already exists"
+    #Write-Host "Scuba directory already exists"
 }
 
 # Set Working Directory
 Set-Location $scubaDir
 
 
-
-
 # Download the latest release of ScubaGear and extract it to the installation directory
 if (-not (Test-Path $scubafile)) {
-$expectedHash = "1B36A8AA900C12F7519225E062C903642E9A55C762F05B31B8BDAA3063FB9838"
 # Download the file
+Write-Host "Downloading latest release of CISA Scuba..." -NoNewline
 Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
+Write-Host " done." -ForegroundColor Green
 }
-
-# Calculate the SHA256 hash of the downloaded file
-$actualHash = (Get-FileHash -Path $scubafile -Algorithm SHA256).Hash
-
-# Compare the actual hash with the expected hash
-if ($actualHash -eq $expectedHash) {
-    Write-Host "Hash match confirmed. The file is valid."
-} else {
-    Write-Host "Hash mismatch. The file may be corrupted or tampered with."
-}
-
 
 # Unpack ScubaGear and move to root of c:\temp\scuba\
 if (-not (Test-Path $setup)) {
@@ -88,22 +76,16 @@ if (-not (Test-Path $setup)) {
 
 # Download OPA and save it to the scuba directory
 if (-not (Test-Path $opaFile)) {
-    $expectedHash = "8E20B4FCD6B8094BE186D8C9EC5596477FB7CB689B340D285865CB716C3C8EA7"
     # Download the file
+    Write-Host "Downloading Open Policy Agent (91,104,854 bytes)" -NoNewline
     Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
-    }
-    # Calculate the SHA256 hash of the downloaded file
-    $actualHash = (Get-FileHash -Path $opaFile -Algorithm SHA256).Hash
-    # Compare the actual hash with the expected hash
-    if ($actualHash -eq $expectedHash) {
-        Write-Host "Hash match confirmed. The file is valid."
-    } else {
-        Write-Host "Hash mismatch. The file may be corrupted or tampered with."
+    Write-Host " done." -ForegroundColor Green
     }
 
 # Run module requirements setup
+Write-Host "Starting module requirement check..."
 & "$scubaDir\setup.ps1"
-
+Write-Host "Module check complete."
 #$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
 #f (Test-Path -Path $RequiredModulesPath) {
 #  . $RequiredModulesPath
@@ -115,6 +97,7 @@ if (-not (Test-Path $opaFile)) {
 
 
 # Import the ScubaGear module
+Write-Host "Invoking CISA Scuba Tool..."
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
 
 # Run Invoke-SCuBA
