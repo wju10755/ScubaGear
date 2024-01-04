@@ -54,15 +54,13 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Online.SharePoint.PowerShell
 if (-not (Get-Module -ListAvailable -Name PnP.PowerShell)) {
     # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
     Write-Host "Microsoft PnP.PowerShell module not found. Installing..."
-    Install-Module -Name PnP.PowerShell -Force -AllowClobber
+    Install-Module -Name PnP.PowerShell -Scope CurrentUser
 } else {
     # If installed, display a message
     Write-Host "Microsoft PnP.PowerShell module is already installed."
 }
 
 
-
-Install-Module -Name PnP.PowerShell -Scope CurrentUser
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
