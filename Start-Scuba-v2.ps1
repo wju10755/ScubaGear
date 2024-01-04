@@ -1,4 +1,4 @@
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Force > $null
 Clear-Host
 
 function Print-Middle($Message, $Color = "White") {
@@ -14,7 +14,6 @@ Print-Middle "CISA - Security Baseline Conformance Reports" "Blue"
 Write-Host -ForegroundColor "Blue" $Padding;
 Write-Host "`n"
 
-Start-Transcript -Path "c:\temp\scuba.log"
 
 # Define the URL for the latest release of ScubaGear
 #$scubaGearUrl = "https://codeload.github.com/cisagov/ScubaGear/zip/refs/heads/main"
@@ -23,46 +22,10 @@ $scubaGearUrl = "https://codeload.github.com/wju10755/ScubaGear/zip/refs/heads/m
 $opaUrl = "https://openpolicyagent.org/downloads/v0.60.0/opa_windows_amd64.exe"
 
 # Define the path to the ScubaGear installation directory
-$tmp = "c:\temp"
 $scubaDir = "C:\temp\scuba"
-$scubafile = "$tmp\scuba.zip"
-$setup = "c:\temp\scuba\setup.ps1"
+$scubafile = "$scubaDir\scuba.zip"
+$setup = "$scubaDir\setup.ps1"
 $opaFile = "$scubaDir\opa_windows_amd64.exe"
-
-# Check if the MicrosoftTeams module is installed
-if (-not (Get-Module -ListAvailable -Name MicrosoftTeams)) {
-    # If not installed, install the MicrosoftTeams module
-    Write-Host "Microsoft Teams module not found. Installing..."
-    Install-Module -Name MicrosoftTeams -Force -AllowClobber
-    Import-Module MicrosoftTeams
-} else {
-    # If installed, display a message
-    Write-Host "Microsoft Teams module is already installed."
-}
-
-# Check if the Microsoft Sharepoint Powershell module is installed
-if (-not (Get-Module -ListAvailable -Name Microsoft.Online.SharePoint.PowerShell)) {
-    # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
-    Write-Host "Microsoft Online SharePoint PowerShell module not found. Installing..."
-    Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
-    Import-Module Microsoft.Online.SharePoint.Powershell
-} else {
-    # If installed, display a message
-    Write-Host "Microsoft Online SharePoint PowerShell module is already installed."
-}
-
-
-# Check if the Microsoft PnP.PowerShell module is installed
-if (-not (Get-Module -ListAvailable -Name PnP.PowerShell)) {
-    # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
-    Write-Host "Microsoft PnP.PowerShell module not found. Installing..."
-    Install-Module -Name PnP.PowerShell -Scope CurrentUser
-    Import-Module PnP.PowerShell
-} else {
-    # If installed, display a message
-    Write-Host "Microsoft PnP.PowerShell module is already installed."
-}
-
 
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
@@ -71,34 +34,81 @@ if (-not (Test-Path $scubaDir)) {
     Write-Host "Scuba directory already exists"
 }
 
+Start-Transcript -Path "c:\temp\scuba\scuba.log"
+
 # Set Working Directory
 Set-Location $scubaDir
 
 # Download the latest release of ScubaGear and extract it to the installation directory
 if (!(Test-Path $scubafile)) {
     Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
-    Invoke-WebRequest -Uri $scubaGearUrl -OutFile "c:\temp\scuba.zip"
+    Invoke-WebRequest -Uri $scubaGearUrl -OutFile "c:\temp\scuscuba.zip"
     Write-Host " done." -ForegroundColor Green
 } else {
     Write-Host "Existing scuba.zip download found"
+}
+
+# Download the latest release of ScubaGear and extract it to the installation directory
+if (-not (Test-Path $scubafile)) {
+    Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
+    Invoke-WebRequest -Uri $scubaGearUrl -OutFile $scubafile
+
+    # Expected hash and size for validation
+    $expectedHash = "003EB1B6B74AD0E94BC7676F8F8891F523A6BF04AD502B351B2A5E76E0835135"
+    $expectedSize = 2578305
+
+    # Calculate actual hash and size of the downloaded file
+    $actualHash = (Get-FileHash $scubafile -Algorithm SHA256).Hash.ToUpper()
+    $actualSize = (Get-Item $scubafile).Length
+
+    # Validate the downloaded file
+    if ($expectedHash -eq $actualHash -and $expectedSize -eq $actualSize) {
+        Write-Host " done." -ForegroundColor Green
+    } else {
+        Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
+        # Optionally, you can add a command to remove the incorrectly downloaded file
+         Remove-Item $scubafile -ErrorAction SilentlyContinue
+    }
+} else {
+    Write-Host "Scuba.zip file already exists." -ForegroundColor Yellow
 }
 
 if (-not (Test-Path $setup)) {
     Write-Host "Unpacking ScubaGear..." -NoNewline
     Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
     Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
-    Write-Host " done." -ForegroundColor Green
     Remove-Item "$scubaDir\ScubaGear-main"
-}
-# Download OPA and save it to the installation directory
-if (-not(Test-Path $opaFile)) {
-    Write-Host "Downloading Open Policy Agent..." -NoNewline
-    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
     Write-Host " done." -ForegroundColor Green
-} else {
-    Write-Host "Existing Open Policy Agent executable found."
 }
-& "c:\temp\scuba\setup.ps1"
+
+
+# Download OPA and save it to the installation directory
+if (-not (Test-Path $opaFile)) {
+    Write-Host "Downloading Open Policy Agent..." -NoNewline
+    Invoke-WebRequest -Uri $opaUrl -OutFile $opaFile
+
+    # Expected hash and size for validation
+    $expectedHash = "8E20B4FCD6B8094BE186D8C9EC5596477FB7CB689B340D285865CB716C3C8EA7"
+    $expectedSize = 91104854
+
+    # Calculate actual hash and size of the downloaded file
+    $actualHash = (Get-FileHash $opaFile -Algorithm SHA256).Hash.ToUpper()
+    $actualSize = (Get-Item $opaFile).Length
+
+    # Validate the downloaded file
+    if ($expectedHash -eq $actualHash -and $expectedSize -eq $actualSize) {
+        Write-Host " done." -ForegroundColor Green
+    } else {
+        Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
+        # Optionally, you can add a command to remove the incorrectly downloaded file
+         Remove-Item $opaFile -ErrorAction SilentlyContinue
+    }
+} else {
+    Write-Host "OPA file already exists." -ForegroundColor Yellow
+}
+
+# Run module requirements setup
+& "$scubaDir\setup.ps1"
 
 #$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
 #f (Test-Path -Path $RequiredModulesPath) {
@@ -108,8 +118,6 @@ if (-not(Test-Path $opaFile)) {
 #if (-not(Test-Path $RequiredModulesPath)) {
 #    & "c:\temp\scuba\setup.ps1"
 #    }
-
-
 
 
 # Import the ScubaGear module
@@ -132,7 +140,8 @@ Invoke-SCuBA
 
 # Launch SCuBA Report
 #Invoke-Item "$ScubaReport\baselinereports.html"
-
+Write-Host " "
 Stop-Transcript
-
+Write-Host " "
+Write-Host " "
 Read-Host -Prompt "Press Enter to Exit"
