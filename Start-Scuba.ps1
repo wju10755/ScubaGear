@@ -1,4 +1,4 @@
-$null = Set-ExecutionPolicy Bypass -Scope Process -Force 
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
 clear-host
 function Print-Middle( $Message, $Color = "White" )
 {
