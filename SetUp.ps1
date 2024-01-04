@@ -37,20 +37,20 @@ param(
 # Set preferences for writing messages
 $DebugPreference = "Continue"
 $InformationPreference = "Continue"
+$scubaDir = "c:\temp\scuba"
 
 if (-not $DoNotAutoTrustRepository) {
     $Policy = Get-PSRepository -Name "PSGallery" | Select-Object -Property -InstallationPolicy
 
     if ($($Policy.InstallationPolicy) -ne "Trusted") {
         Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
-        #Write-Information -MessageData "Setting PSGallery repository to trusted."
     }
 }
 
 # Start a stopwatch to time module installation elapsed time
 $Stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
-$RequiredModulesPath = Join-Path -Path $PSScriptRoot -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
+$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
 if (Test-Path -Path $RequiredModulesPath) {
   . $RequiredModulesPath
 }
