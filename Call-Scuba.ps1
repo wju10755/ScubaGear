@@ -1,4 +1,5 @@
 Write-Host -ForegroundColor Yellow "Loading CISA SCuBA Baseline Report Tool..."
+$ErrorActionPreference = "SilentlyContinue"
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope CurrentUser -Force > $null
 $scubaDir = "C:\temp\scuba"
 if (!(Test-Path $scubaDir)){
