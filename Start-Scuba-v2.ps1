@@ -85,7 +85,7 @@ if (-not (Test-Path $opaFile)) {
 # Run module requirements setup
 Write-Host "Starting module requirement check..."
 & "$scubaDir\setup.ps1"
-Write-Host "Module check complete."
+Write-Host "Module check complete." -ForegroundColor Green
 #$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
 #f (Test-Path -Path $RequiredModulesPath) {
 #  . $RequiredModulesPath
@@ -97,7 +97,7 @@ Write-Host "Module check complete."
 
 
 # Import the ScubaGear module
-Write-Host "Invoking CISA Scuba Tool..."
+Write-Host "Invoking CISA Scuba Tool..." -ForegroundColor Blue
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
 
 # Run Invoke-SCuBA
