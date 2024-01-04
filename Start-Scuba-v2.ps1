@@ -34,6 +34,7 @@ if (-not (Get-Module -ListAvailable -Name MicrosoftTeams)) {
     # If not installed, install the MicrosoftTeams module
     Write-Host "Microsoft Teams module not found. Installing..."
     Install-Module -Name MicrosoftTeams -Force -AllowClobber
+    Import-Module MicrosoftTeams
 } else {
     # If installed, display a message
     Write-Host "Microsoft Teams module is already installed."
@@ -44,6 +45,7 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Online.SharePoint.PowerShell
     # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
     Write-Host "Microsoft Online SharePoint PowerShell module not found. Installing..."
     Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
+    Import-Module Microsoft.Online.SharePoint.Powershell
 } else {
     # If installed, display a message
     Write-Host "Microsoft Online SharePoint PowerShell module is already installed."
@@ -55,6 +57,7 @@ if (-not (Get-Module -ListAvailable -Name PnP.PowerShell)) {
     # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
     Write-Host "Microsoft PnP.PowerShell module not found. Installing..."
     Install-Module -Name PnP.PowerShell -Scope CurrentUser
+    Import-Module PnP.PowerShell
 } else {
     # If installed, display a message
     Write-Host "Microsoft PnP.PowerShell module is already installed."
