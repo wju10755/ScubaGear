@@ -60,6 +60,8 @@ if (-not (Get-Module -ListAvailable -Name Microsoft.Online.SharePoint.PowerShell
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
+} else {
+    Write-Host "Scuba directory already exists"
 }
 
 # Set Working Directory
@@ -70,6 +72,8 @@ if (!(Test-Path $scubafile)) {
     Write-Host "Downloading latest CISA ScubaGear release..." -NoNewline
     Invoke-WebRequest -Uri $scubaGearUrl -OutFile "c:\temp\scuba.zip"
     Write-Host " done." -ForegroundColor Green
+} else {
+    Write-Host "Existing scuba.zip download found"
 }
 
 if (-not (Test-Path $setup)) {
@@ -78,6 +82,14 @@ if (-not (Test-Path $setup)) {
     Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
     Write-Host " done." -ForegroundColor Green
     Remove-Item "$scubaDir\ScubaGear-main"
+}
+# Download OPA and save it to the installation directory
+if (-not(Test-Path $opaFile)) {
+    Write-Host "Downloading Open Policy Agent..." -NoNewline
+    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
+    Write-Host " done." -ForegroundColor Green
+} else {
+    Write-Host "Existing Open Policy Agent executable found."
 }
 
 $RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
@@ -89,13 +101,6 @@ if (-not(Test-Path $RequiredModulesPath)) {
     & "c:\temp\scuba\setup.ps1"
     }
 
-# Download OPA and save it to the installation directory
-if (-not(Test-Path $opaFile)) {
-    Write-Host "Downloading Open Policy Agent..." -NoNewline
-    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
-    Write-Host " done." -ForegroundColor Green
-}
-
 
 
 
@@ -106,19 +111,19 @@ Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
 Invoke-SCuBA
 
 # Get the list of directories in the Scuba directory that include "M365BaselineConformance"
-$reportDirs = Get-ChildItem -Path "$scubaDir\M365BaselineConformance*" -Directory
+#$reportDirs = Get-ChildItem -Path "$scubaDir\M365BaselineConformance*" -Directory
 
 # Sort the directories by creation time in descending order
-$sortedDirs = $reportDirs | Sort-Object -Property CreationTime -Descending
+#$sortedDirs = $reportDirs | Sort-Object -Property CreationTime -Descending
 
 # Get the most recent directory
-$mostRecentDir = $sortedDirs[0]
+#$mostRecentDir = $sortedDirs[0]
 
 # Save the path to the most recent directory as the $ScubaReport variable
-$ScubaReport = $mostRecentDir.FullName
+#$ScubaReport = $mostRecentDir.FullName
 
 # Launch SCuBA Report
-Invoke-Item "$ScubaReport\baselinereports.html"
+#Invoke-Item "$ScubaReport\baselinereports.html"
 
 Stop-Transcript
 
