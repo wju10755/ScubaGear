@@ -58,7 +58,7 @@ if (-not (Test-Path $scubafile)) {
     } else {
         Write-Error "Download failed. The downloaded file hash or size does not match the expected values."
         # Optionally, you can add a command to remove the incorrectly downloaded file
-         Remove-Item $scubafile -ErrorAction SilentlyContinue
+         #Remove-Item $scubafile -ErrorAction SilentlyContinue
     }
 } else {
     Write-Host "Scuba.zip file already exists." -ForegroundColor Yellow
