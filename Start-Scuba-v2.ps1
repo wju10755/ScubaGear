@@ -53,11 +53,12 @@ if (!(Test-Path $scubafile)) {
     Write-Host " done." -ForegroundColor Green
 }
 
-# Download OPA and save it to the installation directory
-if (-not(Test-Path $opaFile)) {
-    Write-Host "Downloading Open Policy Agent..." -NoNewline
-    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
+if (-not (Test-Path $setup)) {
+    Write-Host "Unpacking ScubaGear..." -NoNewline
+    Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
+    Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
     Write-Host " done." -ForegroundColor Green
+    Remove-Item "$scubaDir\ScubaGear-main"
 }
 
 $RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
@@ -69,11 +70,15 @@ if (-not(Test-Path $RequiredModulesPath)) {
     & "c:\temp\scuba\setup.ps1"
     }
 
-if (-not (Test-Path $setup)) {
-    Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
-    Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
-    Remove-Item "$scubaDir\ScubaGear-main"
+# Download OPA and save it to the installation directory
+if (-not(Test-Path $opaFile)) {
+    Write-Host "Downloading Open Policy Agent..." -NoNewline
+    Invoke-WebRequest -Uri $opaUrl -OutFile "$scubaDir\opa_windows_amd64.exe"
+    Write-Host " done." -ForegroundColor Green
 }
+
+
+
 
 # Import the ScubaGear module
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
