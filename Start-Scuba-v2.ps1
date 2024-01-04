@@ -60,20 +60,20 @@ if (-not(Test-Path $opaFile)) {
     Write-Host " done." -ForegroundColor Green
 }
 
+if (-not (Test-Path $setup)) {
+    Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
+    Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
+    Remove-Item "$scubaDir\ScubaGear-main"
+}
+
 $RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
 if (Test-Path -Path $RequiredModulesPath) {
   . $RequiredModulesPath
 }
 
 if (-not(Test-Path $RequiredModulesPath)) {
-& "c:\temp\scuba\setup.ps1"
-}
-
-if (-not (Test-Path $setup)) {
-    Expand-Archive -Path $scubafile -DestinationPath $scubaDir -Force
-    Move-Item -Path "$scubaDir\ScubaGear-main\*" -Destination "c:\temp\scuba\" -Force
-    Remove-Item "$scubaDir\ScubaGear-main"
-}
+    & "c:\temp\scuba\setup.ps1"
+    }
 
 # Import the ScubaGear module
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
