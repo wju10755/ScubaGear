@@ -30,6 +30,18 @@ $setup = "c:\temp\scuba\setup.ps1"
 
 $opaFile = "$scubaDir\opa_windows_amd64.exe"
 
+# Check if the MicrosoftTeams module is installed
+if (-not (Get-Module -ListAvailable -Name MicrosoftTeams)) {
+    # If not installed, install the MicrosoftTeams module
+    Write-Host "Microsoft Teams module not found. Installing..."
+    Install-Module -Name MicrosoftTeams -Force -AllowClobber
+    #Write-Host "Microsoft Teams module installed."
+} else {
+    # If installed, display a message
+    #Write-Host "Microsoft Teams module is already installed."
+}
+
+
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
