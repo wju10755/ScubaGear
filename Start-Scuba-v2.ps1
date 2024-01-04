@@ -11,7 +11,8 @@ function Print-Middle($Message, $Color = "White") {
 $Padding = ("=" * [System.Console]::BufferWidth)
 Write-Host -ForegroundColor "Blue" `n$Padding `n -NoNewline
 Print-Middle "CISA - Security Baseline Conformance Reports" "Blue"
-Write-Host -ForegroundColor "Blue" $Padding `n
+Write-Host -ForegroundColor "Blue" $Padding;
+Write-Host "`n"
 
 Start-Transcript -Path "c:\temp\scuba.log"
 
@@ -35,8 +36,26 @@ if (-not (Get-Module -ListAvailable -Name MicrosoftTeams)) {
     Install-Module -Name MicrosoftTeams -Force -AllowClobber
 } else {
     # If installed, display a message
-    #Write-Host "Microsoft Teams module is already installed."
+    Write-Host "Microsoft Teams module is already installed."
 }
+
+
+
+# Check if the Microsoft Sharepoint Powershell module is installed
+if (-not (Get-Module -ListAvailable -Name Microsoft.Online.SharePoint.PowerShell)) {
+    # If not installed, install the Microsoft.Online.SharePoint.PowerShell module
+    Write-Host "Microsoft Online SharePoint PowerShell module not found. Installing..."
+    Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
+} else {
+    # If installed, display a message
+    Write-Host "Microsoft Online SharePoint PowerShell module is already installed."
+}
+
+
+
+
+
+
 
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
