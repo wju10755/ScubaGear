@@ -27,14 +27,14 @@ $scubafile = "$scubaDir\scuba.zip"
 $setup = "$scubaDir\setup.ps1"
 $opaFile = "$scubaDir\opa_windows_amd64.exe"
 
+Start-Transcript -Path "c:\temp\scuba\scuba.log"
+
 # Create the ScubaGear installation directory if it doesn't exist
 if (-not (Test-Path $scubaDir)) {
     New-Item -ItemType Directory -Path $scubaDir | Out-Null
 } else {
     Write-Host "Scuba directory already exists"
 }
-
-Start-Transcript -Path "c:\temp\scuba\scuba.log"
 
 # Set Working Directory
 Set-Location $scubaDir
