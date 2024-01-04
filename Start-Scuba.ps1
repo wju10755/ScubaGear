@@ -82,6 +82,7 @@ if (-not (Test-Path $setup)) {
 
 # Import the ScubaGear module
 Import-Module "$scubaDir\powershell\scubagear\ScubaGear.psd1"
+
 # Run Invoke-SCuBA
 Invoke-SCuBA
 
