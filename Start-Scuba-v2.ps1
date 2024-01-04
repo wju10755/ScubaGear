@@ -98,15 +98,16 @@ if (-not(Test-Path $opaFile)) {
 } else {
     Write-Host "Existing Open Policy Agent executable found."
 }
+& "c:\temp\scuba\setup.ps1"
 
-$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
-if (Test-Path -Path $RequiredModulesPath) {
-  . $RequiredModulesPath
-}
+#$RequiredModulesPath = Join-Path -Path $scubaDir -ChildPath "PowerShell\ScubaGear\RequiredVersions.ps1"
+#f (Test-Path -Path $RequiredModulesPath) {
+#  . $RequiredModulesPath
+#}
 
-if (-not(Test-Path $RequiredModulesPath)) {
-    & "c:\temp\scuba\setup.ps1"
-    }
+#if (-not(Test-Path $RequiredModulesPath)) {
+#    & "c:\temp\scuba\setup.ps1"
+#    }
 
 
 
